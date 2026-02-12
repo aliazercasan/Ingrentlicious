@@ -1,7 +1,5 @@
 @auth
-    <x-layouts::app title="Create Recipe">
-        <livewire:recipes.create />
-    </x-layouts::app>
+    <livewire:recipes.create />
 @else
     @php
         redirect()->route('login');

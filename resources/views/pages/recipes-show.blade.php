@@ -1,43 +1,49 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $recipe->title }} - Ingrentlicious</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="antialiased bg-gray-50 dark:bg-gray-900">
-    <div class="min-h-screen flex flex-col">
-        <header class="bg-white dark:bg-gray-800 shadow">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <div class="flex justify-between items-center">
-                    <a href="{{ route('home') }}" class="text-2xl font-bold text-gray-900 dark:text-white">
-                        🍳 Ingrentlicious
-                    </a>
-                    <nav class="flex gap-4">
-                        <a href="{{ route('recipes.index') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                            Recipes
-                        </a>
-                        @auth
-                            <a href="{{ route('dashboard') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                                Dashboard
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                                Login
-                            </a>
-                            <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                                Register
-                            </a>
-                        @endauth
-                    </nav>
+<x-layouts.app>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="mb-6">
+            <flux:button href="{{ route('recipes.index') }}" variant="ghost" icon="arrow-left">
+                Back to Recipes
+            </flux:button>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                        {{ $recipe->title }}
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        By {{ $recipe->user->name }}
+                    </p>
+                </div>
+
+                @can('update', $recipe)
+                    <flux:button href="{{ route('recipes.edit', $recipe) }}" icon="pencil">
+                        Edit
+                    </flux:button>
+                @endcan
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Ingredients</h2>
+                <ul class="space-y-2">
+                    @foreach ($recipe->ingredients as $ingredient)
+                        <li class="flex items-start">
+                            <span class="text-gray-600 dark:text-gray-400 mr-2">•</span>
+                            <span class="text-gray-900 dark:text-white">
+                                {{ $ingredient->quantity }} {{ $ingredient->name }}
+                            </span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Instructions</h2>
+                <div class="prose dark:prose-invert max-w-none">
+                    {!! nl2br(e($recipe->instructions)) !!}
                 </div>
             </div>
-        </header>
-
-        <main class="flex-1">
-            <livewire:recipes.show :recipe="$recipe" />
-        </main>
+        </div>
     </div>
-</body>
-</html>
+</x-layouts.app>
