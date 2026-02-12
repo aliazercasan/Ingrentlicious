@@ -6,22 +6,22 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Recipe routes - using Livewire functional components
+// Recipe routes - using Livewire components
 Route::get('/recipes', function () {
-    return view('pages.recipes-index');
+    return view('components.⚡recipe-index');
 })->name('recipes.index');
 
 Route::get('/recipes/{recipe}', function (\App\Models\Recipe $recipe) {
-    return view('pages.recipes-show', ['recipe' => $recipe]);
+    return view('components.⚡recipe-show', ['recipe' => $recipe]);
 })->name('recipes.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/recipes/create/new', function () {
-        return view('pages.recipes-create');
+        return view('components.⚡recipe-create');
     })->name('recipes.create');
 
     Route::get('/recipes/{recipe}/edit', function (\App\Models\Recipe $recipe) {
-        return view('pages.recipes-edit', ['recipe' => $recipe]);
+        return view('components.⚡recipe-edit', ['recipe' => $recipe]);
     })->name('recipes.edit');
 });
 

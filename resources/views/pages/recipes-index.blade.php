@@ -1,47 +1,46 @@
-@php
-    $recipes = \App\Models\Recipe::with(['user', 'ingredients'])->latest()->get();
-@endphp
-
-<x-layouts::app title="Recipes">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <x-guest-notice />
-        
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Ingrentlicious Recipes</h1>
-            
-            @auth
-                <flux:button href="{{ route('recipes.create') }}" icon="plus">
-                    Add Recipe
-                </flux:button>
-            @else
-                <flux:button href="{{ route('login') }}" variant="ghost">
-                    Login to Add Recipe
-                </flux:button>
-            @endauth
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @forelse ($recipes as $recipe)
-                <a href="{{ route('recipes.show', $recipe) }}" 
-                   class="block bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow p-6">
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                        {{ $recipe->title }}
-                    </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        By {{ $recipe->user->name }}
-                    </p>
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                        <flux:icon.book-open-text class="w-4 h-4 mr-2" />
-                        {{ $recipe->ingredients->count() }} ingredients
-                    </div>
-                </a>
-            @empty
-                <div class="col-span-full text-center py-12">
-                    <p class="text-gray-500 dark:text-gray-400 text-lg">
-                        No recipes yet. Be the first to add one!
-                    </p>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recipes - Ingrentlicious</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+</head>
+<body class="antialiased bg-gray-50 dark:bg-gray-900">
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-white dark:bg-gray-800 shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('home') }}" class="text-2xl font-bold text-gray-900 dark:text-white">
+                        🍳 Ingrentlicious
+                    </a>
+                    <nav class="flex gap-4">
+                        <a href="{{ route('recipes.index') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                            Recipes
+                        </a>
+                        @auth
+                            <a href="{{ route('dashboard') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                                Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                                Login
+                            </a>
+                            <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                Register
+                            </a>
+                        @endauth
+                    </nav>
                 </div>
-            @endforelse
-        </div>
+            </div>
+        </header>
+
+        <main class="flex-1">
+            <livewire:recipes.index />
+        </main>
     </div>
-</x-layouts::app>
+    
+    @livewireScripts
+</body>
+</html>
