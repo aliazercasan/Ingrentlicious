@@ -2,7 +2,7 @@
     $recipes = \App\Models\Recipe::with(['user', 'ingredients'])->latest()->get();
 @endphp
 
-<x-layouts.app>
+<x-layouts::app title="Recipes">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <x-guest-notice />
         
@@ -44,4 +44,4 @@
             @endforelse
         </div>
     </div>
-</x-layouts.app>
+</x-layouts::app>
