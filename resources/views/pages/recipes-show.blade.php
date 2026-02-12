@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $recipe->title }} - Ingrentlicious</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="antialiased bg-gray-50 dark:bg-gray-900">
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-white dark:bg-gray-800 shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('home') }}" class="text-2xl font-bold text-gray-900 dark:text-white">
+                        🍳 Ingrentlicious
+                    </a>
+                    <nav class="flex gap-4">
+                        <a href="{{ route('recipes.index') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                            Recipes
+                        </a>
+                        @auth
+                            <a href="{{ route('dashboard') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                                Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                                Login
+                            </a>
+                            <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                Register
+                            </a>
+                        @endauth
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1">
+            <livewire:recipes.show :recipe="$recipe" />
+        </main>
+    </div>
+</body>
+</html>
