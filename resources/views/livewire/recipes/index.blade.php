@@ -1,24 +1,25 @@
 <div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <x-guest-notice />
-        
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 sm:mb-10">
             <div>
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-2">
-                    All Recipes
+                    @auth
+                        Community Recipes
+                    @else
+                        All Recipes
+                    @endauth
                 </h1>
                 <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-                    Discover amazing dishes from our community
+                    @auth
+                        Discover amazing dishes from other cooks
+                    @else
+                        Discover amazing dishes from our community
+                    @endauth
                 </p>
             </div>
             
             @auth
-                <a href="{{ route('recipes.create') }}" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-xl hover:from-orange-600 hover:to-amber-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Add Recipe
-                </a>
+               
             @else
                 <a href="{{ route('login') }}" class="w-full sm:w-auto text-center px-6 py-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-orange-600 dark:text-orange-400 rounded-xl hover:bg-white dark:hover:bg-gray-800 font-semibold shadow-md hover:shadow-lg transition-all duration-300 border border-orange-200 dark:border-orange-800">
                     Login to Add Recipe
@@ -85,10 +86,18 @@
                     <div class="text-center py-16 sm:py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border-2 border-dashed border-orange-200 dark:border-orange-800">
                         <div class="text-6xl sm:text-7xl mb-4">👨‍🍳</div>
                         <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                            No recipes yet
+                            @auth
+                                No community recipes yet
+                            @else
+                                No recipes yet
+                            @endauth
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400 mb-6">
-                            Be the first to share a delicious recipe!
+                            @auth
+                                Check back later for recipes from other cooks!
+                            @else
+                                Be the first to share a delicious recipe!
+                            @endauth
                         </p>
                         @auth
                             <a href="{{ route('recipes.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-xl hover:from-orange-600 hover:to-amber-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-300">

@@ -177,16 +177,12 @@ new class extends Component {
     }
 } ?>
 
-<section class="w-full">
-    @include('partials.settings-heading')
-
-    <flux:heading class="sr-only">{{ __('Two-Factor Authentication Settings') }}</flux:heading>
-
-    <x-pages::settings.layout
-        :heading="__('Two Factor Authentication')"
-        :subheading="__('Manage your two-factor authentication settings')"
-    >
-        <div class="flex flex-col w-full mx-auto space-y-6 text-sm" wire:cloak>
+<x-pages::settings.layout
+    :heading="__('Two-Factor Authentication')"
+    :subheading="__('Add an extra layer of security to your account')"
+>
+    <section class="w-full">
+        <div class="flex flex-col w-full space-y-6" wire:cloak>
             @if ($twoFactorEnabled)
                 <div class="space-y-4">
                     <div class="flex items-center gap-3">
@@ -225,13 +221,14 @@ new class extends Component {
                         icon="shield-check"
                         icon:variant="outline"
                         wire:click="enable"
+                        class="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700"
                     >
                         {{ __('Enable 2FA') }}
                     </flux:button>
                 </div>
             @endif
         </div>
-    </x-pages::settings.layout>
+    </section>
 
     <flux:modal
         name="two-factor-setup-modal"
@@ -386,4 +383,4 @@ new class extends Component {
             @endif
         </div>
     </flux:modal>
-</section>
+</x-pages::settings.layout>
