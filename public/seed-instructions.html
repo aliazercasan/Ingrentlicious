@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Database - Ingrentlicious</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        .info {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .info p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .recipes-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .recipe-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        .emoji {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">🍳</span>Seed Database</h1>
+        <p class="subtitle">Add 25 international recipes to your database</p>
+
+        <div class="info">
+            <h3>What will be created:</h3>
+            <div class="recipes-list">
+                <div class="recipe-item">🇯🇵 5 Japanese recipes</div>
+                <div class="recipe-item">🇰🇷 5 Korean recipes</div>
+                <div class="recipe-item">🇵🇭 5 Filipino recipes</div>
+                <div class="recipe-item">🇮🇹 5 Italian recipes</div>
+                <div class="recipe-item">🇲🇽 5 Mexican recipes</div>
+                <div class="recipe-item">👤 1 User account</div>
+            </div>
+        </div>
+
+        <button class="button" onclick="seedDatabase()">
+            <span id="buttonText">🌱 Seed Database Now</span>
+        </button>
+
+        <div id="result"></div>
+
+        <div class="info" style="margin-top: 30px;">
+            <h3>After seeding:</h3>
+            <p>
+                <strong>View recipes:</strong> <a href="/recipes">/recipes</a><br>
+                <strong>Login with:</strong><br>
+                Email: chef@ingrentlicious.com<br>
+                Password: password
+            </p>
+        </div>
+    </div>
+
+    <script>
+        async function seedDatabase() {
+            const button = document.querySelector('.button');
+            const buttonText = document.getElementById('buttonText');
+            const result = document.getElementById('result');
+            
+            // Disable button and show loading
+            button.disabled = true;
+            buttonText.innerHTML = 'Seeding... <span class="loading"></span>';
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch('/seed-recipes-now');
+                const data = await response.json();
+                
+                if (data.success) {
+                    result.className = 'success';
+                    result.innerHTML = `
+                        <h3>✅ Success!</h3>
+                        <p>
+                            <strong>Recipes created:</strong> ${data.data.recipes_created}<br>
+                            <strong>Total recipes:</strong> ${data.data.total_recipes}<br>
+                            <strong>Total ingredients:</strong> ${data.data.total_ingredients}
+                        </p>
+                        <p style="margin-top: 10px;">
+                            <a href="/recipes" style="color: #155724; font-weight: 600;">View Recipes →</a>
+                        </p>
+                    `;
+                } else {
+                    result.className = 'error';
+                    result.innerHTML = `
+                        <h3>❌ Error</h3>
+                        <p>${data.error || 'Something went wrong'}</p>
+                    `;
+                }
+                
+                result.style.display = 'block';
+                buttonText.textContent = '✓ Seeding Complete';
+                
+            } catch (error) {
+                result.className = 'error';
+                result.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>${error.message}</p>
+                `;
+                result.style.display = 'block';
+                button.disabled = false;
+                buttonText.textContent = '🌱 Seed Database Now';
+            }
+        }
+    </script>
+</body>
+</html>
