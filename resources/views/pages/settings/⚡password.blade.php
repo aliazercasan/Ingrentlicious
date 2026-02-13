@@ -53,13 +53,50 @@ new class extends Component {
                 required
                 autocomplete="current-password"
             />
-            <flux:input
-                wire:model="password"
-                :label="__('New password')"
-                type="password"
-                required
-                autocomplete="new-password"
-            />
+            <div>
+                <flux:input
+                    wire:model="password"
+                    :label="__('New password')"
+                    type="password"
+                    required
+                    autocomplete="new-password"
+                />
+                <div class="mt-2 text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                    <p class="font-medium text-gray-700 dark:text-gray-300 mb-1.5">Password must contain:</p>
+                    <ul class="space-y-1 ml-1">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>More than 8 characters (12+ recommended)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>One uppercase letter (A-Z)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>One lowercase letter (a-z)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>One number (0-9)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>One special character (!@#$%^&*)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <flux:input
                 wire:model="password_confirmation"
                 :label="__('Confirm Password')"

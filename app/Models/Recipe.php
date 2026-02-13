@@ -12,6 +12,7 @@ class Recipe extends Model
         'user_id',
         'title',
         'instructions',
+        'views',
     ];
 
     public function user(): BelongsTo
