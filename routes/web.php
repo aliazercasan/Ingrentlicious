@@ -40,4 +40,30 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+// Temporary seeding route for Railway (remove after use)
+Route::get('/admin/seed-database', function () {
+    if (!app()->environment('production')) {
+        return 'This route only works in production';
+    }
+    
+    try {
+        Artisan::call('db:seed', ['--class' => 'RecipeDataSeeder', '--force' => true]);
+        $recipeCount = \App\Models\Recipe::count();
+        $ingredientCount = \App\Models\Ingredient::count();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Database seeded successfully!',
+            'recipes' => $recipeCount,
+            'ingredients' => $ingredientCount,
+            'note' => 'Please remove this route from routes/web.php for security'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'error' => $e->getMessage()
+        ], 500);
+    }
+})->middleware('auth');
+
 require __DIR__.'/settings.php';
