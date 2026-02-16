@@ -28,9 +28,6 @@
                     
                     <!-- Navigation -->
                     <nav class="flex items-center gap-2 sm:gap-4">
-                        <a href="{{ route('recipes.index') }}" class="px-3 py-2 sm:px-4 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors duration-200">
-                            Recipes
-                        </a>
                         @auth
                             <a href="{{ route('dashboard') }}" class="px-3 py-2 sm:px-4 text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors duration-200">
                                 Dashboard
