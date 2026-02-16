@@ -111,5 +111,11 @@
                 </div>
             @endforelse
         </div>
+
+        @if($recipes->hasPages())
+            <div class="mt-8 sm:mt-12">
+                {{ $recipes->links() }}
+            </div>
+        @endif
     </div>
 </div>

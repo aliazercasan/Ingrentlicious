@@ -4,13 +4,18 @@ namespace App\Livewire\Recipes;
 
 use App\Models\Recipe;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+
     public function render()
     {
-        // Get all recipes
-        $recipes = Recipe::with(['user', 'ingredients'])->latest()->get();
+        // Get recipes with pagination - 24 per page
+        $recipes = Recipe::with(['user', 'ingredients'])
+            ->latest()
+            ->paginate(24);
         
         return view('livewire.recipes.index', [
             'recipes' => $recipes
