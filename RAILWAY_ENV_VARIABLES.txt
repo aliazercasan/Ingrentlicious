@@ -1,0 +1,39 @@
+REQUIRED RAILWAY ENVIRONMENT VARIABLES
+======================================
+
+Add these variables in Railway Dashboard → Your Service → Variables tab:
+
+1. APP_URL=https://ingrentilicious-production.up.railway.app
+2. ASSET_URL=https://ingrentilicious-production.up.railway.app
+3. SESSION_SECURE_COOKIE=true
+4. SESSION_DOMAIN=.ingrentilicious-production.up.railway.app
+5. SESSION_SAME_SITE=lax
+
+WHY THESE ARE NEEDED:
+=====================
+
+SESSION_SECURE_COOKIE=true
+- Forces cookies to only be sent over HTTPS
+- Required for Railway's HTTPS deployment
+
+SESSION_DOMAIN=.ingrentilicious-production.up.railway.app
+- Ensures cookies work across your domain
+- The leading dot (.) allows subdomains
+
+SESSION_SAME_SITE=lax
+- Allows cookies to be sent on redirects
+- Fixes the "Not Found" error after login/signup
+
+STEPS TO FIX:
+=============
+
+1. Go to Railway Dashboard
+2. Select your Ingrentlicious service
+3. Click "Variables" tab
+4. Add each variable above
+5. Click "Deploy" to redeploy
+
+After deployment, test:
+- Register a new account
+- Login with existing account
+- Both should redirect to /dashboard successfully
