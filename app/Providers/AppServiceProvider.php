@@ -33,11 +33,6 @@ class AppServiceProvider extends ServiceProvider
             if ($appUrl = config('app.url')) {
                 \Illuminate\Support\Facades\URL::forceRootUrl($appUrl);
             }
-            
-            // Ensure secure cookies in production
-            config(['session.secure' => true]);
-            config(['session.http_only' => true]);
-            config(['session.same_site' => 'lax']);
         }
     }
 
