@@ -17,4 +17,4 @@ cmds = [
 ]
 
 [start]
-cmd = 'php artisan migrate --force && php artisan recipes:seed --no-interaction || true && php artisan config:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}'
+cmd = 'php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear && php artisan migrate --force && php artisan recipes:seed --no-interaction || true && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}'

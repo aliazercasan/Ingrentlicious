@@ -29,10 +29,20 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
             
-            // Force asset URL to use the correct domain
-            if ($appUrl = config('app.url')) {
+            // Force the correct Railway domain
+            $railwayUrl = env('RAILWAY_PUBLIC_DOMAIN');
+            if ($railwayUrl) {
+                $fullUrl = 'https://' . $railwayUrl;
+                \Illuminate\Support\Facades\URL::forceRootUrl($fullUrl);
+                config(['app.url' => $fullUrl]);
+            } elseif ($appUrl = config('app.url')) {
                 \Illuminate\Support\Facades\URL::forceRootUrl($appUrl);
             }
+            
+            // Ensure secure cookies in production
+            config(['session.secure' => true]);
+            config(['session.http_only' => true]);
+            config(['session.same_site' => 'lax']);
         }
     }
 
