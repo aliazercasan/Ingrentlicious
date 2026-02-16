@@ -1,0 +1,41 @@
+QUICK FIX FOR RAILWAY DEPLOYMENT
+=================================
+
+The issue: Assets (JS/CSS) are returning 404 errors due to cached builds.
+
+IMMEDIATE STEPS:
+================
+
+1. In Railway Dashboard → Your Service → Variables tab:
+   Add or update these variables:
+   
+   APP_URL=https://ingrentilicious-production.up.railway.app
+   ASSET_URL=https://ingrentilicious-production.up.railway.app
+   
+2. In Railway Dashboard → Settings → Danger Zone:
+   Click "Remove All Volumes" to clear cache
+   
+3. Push your code to trigger a fresh deployment:
+   
+   git add .
+   git commit -m "Fix Railway deployment"
+   git push
+   
+4. Wait for deployment to complete and check the logs for:
+   ✓ "npm run build" success
+   ✓ "vite build" completion
+   ✓ No errors
+
+5. Test your site:
+   - Clear browser cache (Ctrl+Shift+Delete)
+   - Visit your Railway URL
+   - Check browser console for errors
+
+WHAT WAS FIXED:
+===============
+✓ CORS middleware configured
+✓ CORS headers in .htaccess
+✓ Asset URL forcing in AppServiceProvider
+✓ Build cache clearing in nixpacks.toml
+
+If still not working, see RAILWAY_DEPLOYMENT_FIX.md for detailed troubleshooting.

@@ -28,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
         // Force HTTPS in production
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
+            
+            // Force asset URL to use the correct domain
+            if ($appUrl = config('app.url')) {
+                \Illuminate\Support\Facades\URL::forceRootUrl($appUrl);
+            }
         }
     }
 
